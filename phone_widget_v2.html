@@ -87,6 +87,7 @@ body {
 }
 .out-sub { font-size: 10.5px; color: #667085; margin-top: 2px; }
 </style>
+<script src="https://js.jotform.com/JFCustomWidget.js"></script>
 </head>
 <body>
 <div class="type-toggle">
@@ -924,6 +925,7 @@ function validate() {
     outBox.style.display = 'block';
     document.getElementById('out-e164').textContent = e164;
     document.getElementById('out-type').textContent = 'Detected type: ' + typeName;
+    pushValue(e164);
   } else {
     input.classList.add('is-invalid'); input.classList.remove('is-valid');
     vmsg.className   = 'vmsg err show';
@@ -931,6 +933,12 @@ function validate() {
     vmsg.textContent = '\u2717 ' + (errCodes[iti.getValidationError()] || 'Invalid number');
     outBox.style.display = 'none';
   }
+}
+
+function pushValue(value) {
+  try {
+    JFCustomWidget.sendData({ value: value, valid: true });
+  } catch(e) {}
 }
 
 input.addEventListener('input', validate);
